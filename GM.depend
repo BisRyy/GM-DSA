@@ -1,0 +1,86 @@
+# depslib dependency file v1.0
+1676368577 source:c:\users\administrator\documents\gm-cpp\gm\main.cpp
+	"headers/common.h"
+	"headers/signup.h"
+	"headers/login.h"
+
+1676367668 c:\users\administrator\documents\gm-cpp\gm\common.h
+	<iostream>
+	<fstream>
+	<cstring>
+	<string>
+	<cstring>
+	<iomanip>
+	<stack>
+	<conio.h>
+
+1676355433 c:\users\administrator\documents\gm-cpp\gm\signup.h
+	"common.h"
+
+1676367985 c:\users\administrator\documents\gm-cpp\gm\login.h
+	"common.h"
+	"menu.h"
+
+1676368013 c:\users\administrator\documents\gm-cpp\gm\menu.h
+	"common.h"
+	"buy.h"
+	"orders.h"
+	"account.h"
+	"sell.h"
+	"admin.h"
+
+1676363096 c:\users\administrator\documents\gm-cpp\gm\buy.h
+	"common.h"
+
+1676363237 c:\users\administrator\documents\gm-cpp\gm\orders.h
+	"common.h"
+
+1676366367 c:\users\administrator\documents\gm-cpp\gm\account.h
+	"common.h"
+
+1676367669 c:\users\administrator\documents\gm-cpp\gm\sell.h
+	"common.h"
+
+1676368090 c:\users\administrator\documents\gm-cpp\gm\admin.h
+	"common.h"
+
+1676367668 c:\users\administrator\documents\gm-cpp\gm\headers\common.h
+	<iostream>
+	<fstream>
+	<cstring>
+	<string>
+	<cstring>
+	<iomanip>
+	<stack>
+	<conio.h>
+
+1676355433 c:\users\administrator\documents\gm-cpp\gm\headers\signup.h
+	"common.h"
+
+1676367985 c:\users\administrator\documents\gm-cpp\gm\headers\login.h
+	"common.h"
+	"menu.h"
+
+1676368013 c:\users\administrator\documents\gm-cpp\gm\headers\menu.h
+	"common.h"
+	"buy.h"
+	"orders.h"
+	"account.h"
+	"sell.h"
+	"admin.h"
+
+1676363096 c:\users\administrator\documents\gm-cpp\gm\headers\buy.h
+	"common.h"
+
+1676363237 c:\users\administrator\documents\gm-cpp\gm\headers\orders.h
+	"common.h"
+
+1676366367 c:\users\administrator\documents\gm-cpp\gm\headers\account.h
+	"common.h"
+
+1676367669 c:\users\administrator\documents\gm-cpp\gm\headers\sell.h
+	"common.h"
+
+1676368090 c:\users\administrator\documents\gm-cpp\gm\headers\admin.h
+	"common.h"
+

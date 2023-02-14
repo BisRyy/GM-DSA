@@ -1,0 +1,7 @@
+seller              email                         location                      phone               username
+------------------- ---------------------------- ---------------------------- ------------------- ----------------------------
+mesebo              mesebo@gmail.com              addis_ababa                   0989984735          321obesem           
+me                  me                            me                            me                  em
+
+mee                 mem                           e                             e                   e                   
+a                   a                             a                             a                   a                   

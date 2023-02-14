@@ -1,0 +1,8 @@
+Name                email                         city                          phone               username            password
+------------------- ----------------------------- ----------------------------- ------------------- ------------------- -------------------
+biruk               biruk@gmail.com               addis_ababa                   0989984735          biruk__m            321kurib            
+a                   a                             a                             a                   a                   a                   
+b                   b                             b                             b                   b                   b                   
+bisrat              bisrat@abcd                   aastu                         123                 bisry               321
+a                   a                             a                             a                                       a                   
+me                  me                            me                            me                  me                  em                  
