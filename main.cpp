@@ -18,8 +18,6 @@ void mainmenu() {
 
         switch (choice) {
             case 1:
-                menuchoice(choice);
-                break;
             case 2:
                 menuchoice(choice);
                 break;
@@ -50,23 +48,59 @@ void menuchoice(int user) {
         cout << "\n\n\t\tWelcome to the GM!" << endl;
         cout << "\n\n\t\t1. Login" << endl;
         cout << "\n\n\t\t2. Sign up" << endl;
-        cout << "\n\n\t\t3. back" << endl;
+        cout << "\n\n\t\t3. Forgot Password" << endl;
+        cout << "\n\n\t\t4. Back" << endl;
         cout << "\n\n\t\t0. Exit" << endl;
         cout << "\n\n\t\tPlease enter your choice: ";
         cin >> option;
         if (option == 1) {
-
             login(user);
         }
         if (option == 2) {
             signup(user);
         }
-        if (option == 3)
+        if (option == 3) {
+            forgotpassword(user - 1);
+        }
+        if (option == 4)
             mainmenu();
         if (option == 0) {
             exit(0);
         }
     } while (option != 0);
+}
+
+// Recover Forgotten Password
+void forgotpassword(int t = 0) {
+    clear();
+    char u[50], p[50], n[50];
+    cout << "\n\n\t\t----------------- Password Recovery -----------------\n";
+    char x[20], y[20];
+    if (t == 0)
+        cout << "\n\t\tEnter your username: \t";
+    else if (t == 1)
+        cout << "\n\t\tEnter your Librarian ID No: \t";
+    cin.ignore();
+    cin.getline(x, 15);
+    ifstream file(files[t]);
+    bool flag = false;
+    while (file >> n >> p >> u >> p >> u >> p) {
+        if (strcasecmp(u, x) == 0) {
+            flag = true;
+            cout << "\n\n\t\tEnter your Full Name: \t";
+            cin.getline(y, 50);
+            if (n == replace(y)) {
+                cout << "\n\n\t\t>> Your password is: \t" << securePassword(p) << endl
+                     << "\n\t\tTry Not to forget Again!\n";
+
+            } else
+                cout << "\n\n\t\t <!> Who are you?  Try Registering.\n" << endl;
+        }
+    }
+    file.close();
+    if (!flag)
+        cout << "\n\n\t\tSorry, Can't find your username in the list. Try registering.";
+    cont();
 }
 
 int main() {

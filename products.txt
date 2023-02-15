@@ -1,5 +1,2 @@
-boleke              53                  5         350       mesebo
-teff                51                  5         900       mesebo              
-teffff                51                  5         900       mesebo
-teff                51                  5         900       mesebo
-a                   1                   1         11        me        
+boleke              53                  5         350       mesebo              
+a                   1                   1         7         me                  

@@ -104,7 +104,8 @@ void adminMenu() {
     cout << "\n\n\t\t4. User List" << endl;
     cout << "\n\n\t\t5. Seller List" << endl;
     cout << "\n\n\t\t6. Orders" << endl;
-    cout << "\n\n\t\t7. Back" << endl;
+    cout << "\n\n\t\t7. Report" << endl;
+    cout << "\n\n\t\t8. Back" << endl;
     cout << "\n\n\t\t0. Exit" << endl;
     cout << "\n\n\t\tPlease enter your choice: ";
     cin >> choice;
@@ -134,6 +135,10 @@ void adminMenu() {
     }
 
     if (choice == 7) {
+        inventory();
+    }
+
+    if (choice == 8) {
         mainmenu();
     }
 

@@ -97,8 +97,8 @@ void sortbyname() {
     Product *temp = head;
     Product *ptr = head;
 
-    while (temp != NULL) {
-        while (ptr->next != NULL) {
+    while (temp != nullptr) {
+        while (ptr->next != nullptr) {
             if ((ptr->ProductName)[0] > (ptr->next->ProductName)[0]) {
                 pn = ptr->ProductName;
                 ptr->ProductName = ptr->next->ProductName;
@@ -124,8 +124,8 @@ void sortbyprice() {
     Product *temp = head;
     Product *ptr = head;
 
-    while (temp != NULL) {
-        while (ptr->next != NULL) {
+    while (temp != nullptr) {
+        while (ptr->next != nullptr) {
             if (ptr->ProductPrice > ptr->next->ProductPrice) {
                 pp = ptr->ProductPrice;
                 ptr->ProductPrice = ptr->next->ProductPrice;
@@ -144,43 +144,41 @@ void sortbyprice() {
     }
 }
 
+void addOrder(string p, string mn, int a) {
+    string pn;
+    string mhn;
+    float pp;
+    float mp;
+    int am;
 
-void numberofitemstobuy() {
-    int n;
-    cout << "\n\n\t\tHow many items do you want to buy: ";
-    cin >> n;
-    if (n >= 3 and n < 10) {
-        cout << "\n\n\t\tWe Have an offer for you!" << endl;
-        cout << "\n\n\t\tIf you buy more than 3 items you will get 10% discount" << endl;
-        cout << "\n\n\t\tDo you want to buy more than 3 items? (y/n): ";
-        char ch;
-        cin >> ch;
-        if (ch == 'y') {
-
-            cout << "How many Items do you want to buy: ";
-            cin >> n;
-
-            for (int i = 0; i < n; i++) {
-                makeorder();
-                discountprice();
+    ifstream file("products.txt");
+    ofstream file1("temp.txt", ios::app);
+    ofstream file2("order.txt", ios::app);
+    while (file >> pn >> pp >> mp >> am >> mhn) {
+        if (pn == p && mhn == mn) {
+            am = am - a;
+            file2 << setw(20) << left << pn << setw(20) << left << pp << setw(10) << left << mp << setw(10)
+                  << left << a << setw(20) << left << mhn << setw(20) << left << currentuser.username
+                  << setw(20) << left << "pending..." << endl;
+            if (am == 0) {
+                deletefromnode(p, mn);
+                continue;
             }
-        } else {
-            for (int i = 0; i < n; i++) {
-                makeorder();
-            }
+            updateNode(pn, pp, mp, am, mn, 2);
         }
-    } else if (n >= 10) {
-        cout << "You have reached maximum limit of your buying capacity in a day" << endl;
-        return;
-    } else {
-        for (int i = 0; i < n; i++) {
-            makeorder();
-        }
+        file1 << setw(20) << left << pn << setw(20) << left << pp << setw(10) << left << mp << setw(10) << left
+              << am << setw(20) << left << mhn << endl;
     }
+
+    file.close();
+    file1.close();
+    file2.close();
+    remove("products.txt");
+    rename("temp.txt", "products.txt");
+    cout << "\n\n\t\tOrder Completed." << endl;
 }
 
-
-void makeorder() {
+void makeorder(bool discount = false) {
     string p, mn;
     string pn, mhn;
     float pp, mp;
@@ -192,7 +190,7 @@ void makeorder() {
     p = replace(p, ' ', '_');
     p = changetolower(p);
 
-    cout << "\n\n\t\tEnter millinhouse name: ";
+    cout << "\n\n\t\tEnter milling house name: ";
     //   cin.ignore();
     getline(cin, mn);
     mn = replace(mn, ' ', '_');
@@ -201,33 +199,24 @@ void makeorder() {
     if (checkp(p, mn)) {
         cout << "\n\n\t\tEnter the amount you want: ";
         cin >> a;
-        if (checka(p, mn, a)) {
-            ifstream file("products.txt");
-            ofstream file1("temp.txt", ios::app);
-            ofstream file2("order.txt", ios::app);
-            while (file >> pn >> pp >> mp >> am >> mhn) {
-                if (pn == p && mhn == mn) {
-                    am = am - a;
-                    file2 << setw(20) << left << pn << setw(20) << left << pp << setw(10) << left << mp << setw(10)
-                          << left << a << setw(20) << left << mhn << setw(20) << left << currentuser.username
-                          << setw(20) << left << "pending..." << endl;
-                    if (am == 0) {
-                        deletefromnode(p, mn);
-                        continue;
-                    }
-                    updateNode(pn, pp, mp, am, mn, 2);
-                }
-                file1 << setw(20) << left << pn << setw(20) << left << pp << setw(10) << left << mp << setw(10) << left
-                      << am << setw(20) << left << mhn << endl;
+
+        float total = calculateTotalPrice(p, mn, a);
+        if (total > 0) {
+            cout << "\n\n\t\tTotal price: " << total << endl;
+            if (total > 1000 || discount) {
+                cout << "\n\n\t\tYou will get 10% discount" << endl;
+                total = total - (total * 0.1);
+                cout << "\n\n\t\tTotal price after discount: " << total << endl;
             }
 
-            file.close();
-            file1.close();
-            file2.close();
-            remove("products.txt");
-            rename("temp.txt", "products.txt");
-            cout << "\n\n\t\tOrder Completed." << endl;
-
+            string confirm;
+            cout << "\n\n\t\tDo you want to confirm your order? (y/n): ";
+            cin >> confirm;
+            if (confirm[0] == 'y') {
+                addOrder(p, mn, a);
+            } else {
+                cout << "\n\n\t\tOrder Cancelled." << endl;
+            }
         } else {
             cout << "\n\n\t\tThis millingHouse doesn't have that much amount of that product" << endl;
         }
@@ -238,33 +227,25 @@ void makeorder() {
 }
 
 
-void discountprice() {
-    float total = 0;
-    fstream file;
-    file.open("order.txt", ios::in);
-    string name, email, address, phone, username, password, productname, millinghousename;
-    int amount;
-    float price, millingprice;
-    while (file >> name >> email >> address >> phone >> username >> password >> productname >> millinghousename
-                >> amount >> price >> millingprice) {
-        if (username == currentuser.username) {
-            total += (price + millingprice) * amount;
-        }
+void numberofitemstobuy() {
+    int n;
+    cout << "\n\n\t\tSpecial offer only for you!" << endl;
+    cout << "\n\n\t\tIf you buy more than 3 items or spend 1000+ Birr you will get 10% discount" << endl;
+    cout << "\n\n\t\tHow many items do you want to buy: ";
+    cin >> n;
+    if (n >= 3 and n < 10) {
+        makeorder(true);
+    } else {
+        makeorder();
     }
-    file.close();
-    cout << "\n\n\t\tTotal Price: " << total << endl;
-    cout << "\n\n\t\tTotal Price after discount: " << total - (total * 0.1) << endl;
-    cout << "\n\n\t\tPress Enter to Continue...";
-    getch();
 }
 
-
 bool checkp(string p, string mn) {
-    if (head == NULL) {
+    if (head == nullptr) {
         return false;
     }
     Product *temp = head;
-    while (temp != NULL) {
+    while (temp != nullptr) {
         if (temp->ProductName == p && temp->millinghousename == mn) {
             return true;
         }
@@ -274,21 +255,21 @@ bool checkp(string p, string mn) {
     return false;
 }
 
-bool checka(string p, string mn, int a) {
+float calculateTotalPrice(string p, string mn, int a) {
     Product *temp = head;
-    while (temp != NULL) {
+    while (temp != nullptr) {
         if (temp->ProductName == p && temp->millinghousename == mn && temp->amount >= a)
-            return true;
+            return float(a) * temp->ProductPrice;
         temp = temp->next;
     }
-    return false;
+    return 0;
 }
 
 
 void updateNode(string pn, float pp, float mp, int am, string mn, int x) {
     if (x == 1) {
         Product *temp = head;
-        while (temp != NULL) {
+        while (temp != nullptr) {
             if (temp->ProductName == pn && miller.name == temp->millinghousename) {
                 temp->ProductPrice = pp;
                 temp->MillingPrice = mp;
@@ -298,7 +279,7 @@ void updateNode(string pn, float pp, float mp, int am, string mn, int x) {
         }
     } else {
         Product *temp = head;
-        while (temp != NULL) {
+        while (temp != nullptr) {
             if (temp->ProductName == pn && mn == temp->millinghousename) {
                 temp->ProductPrice = pp;
                 temp->MillingPrice = mp;
@@ -310,19 +291,19 @@ void updateNode(string pn, float pp, float mp, int am, string mn, int x) {
 }
 
 void deletefromnode(string s, string mn) {
-    if (head->next == NULL) {
-        head = NULL;
+    if (head->next == nullptr) {
+        head = nullptr;
     } else {
         Product *temp = head->next;
         Product *ptr = head;
-        while (temp != NULL) {
+        while (temp != nullptr) {
             if (temp->ProductName == s && mn == temp->millinghousename)
                 break;
             temp = temp->next;
             ptr = ptr->next;
         }
-        if (temp == NULL) {
-            ptr->next = NULL;
+        if (temp == nullptr) {
+            ptr->next = nullptr;
             delete temp;
         } else {
             ptr->next = temp->next;
@@ -333,13 +314,13 @@ void deletefromnode(string s, string mn) {
 
 
 void search() {
-    if (head == NULL) {
+    if (head == nullptr) {
         cout << "\n\n\t\tWe Don't Have products in our store Yet." << endl;
         cont();
         return;
     }
     string value;
-    cout << "\n\n\t\tEnter the name of the product you wanna search: ";
+    cout << "\n\n\t\tEnter the name of the product to search: ";
     cin.ignore();
     getline(cin, value);
 
@@ -348,24 +329,27 @@ void search() {
     Product *temp = head;
 
     int a = -1;
-    while (temp != NULL) {
-        if (temp->ProductName == value) {
+    while (temp != nullptr) {
+        char valueC[50];
+        char tempC[50];
+        copy(temp->ProductName.begin(), temp->ProductName.end(), tempC);
+        std::copy(value.begin(), value.end(), valueC);
+        int x = strncasecmp(valueC, tempC, value.length());
+        if (x == 0) {
             a++;
-            cout << "\n\n\t\tHere is the Product details" << endl;
+            cout << "\n\n\t\tHere are some available products relevant to your search." << endl;
             cout << "\t\t" << setw(20) << left << "productName" << setw(20) << left << "productPrice" << setw(20)
                  << left << "MillingPrice" << setw(10) << left << "amount" << setw(20) << left << "Millinhouse" << endl;
             cout << "\t\t" << setw(20) << left << temp->ProductName << setw(20) << left << temp->ProductPrice
                  << setw(20) << left << temp->MillingPrice << setw(10) << left << temp->amount << setw(20) << left
                  << temp->millinghousename << endl;
-            cont();
-            break;
         }
         temp = temp->next;
     }
     if (a == -1) {
-        cout << "\n\n\t\tThe name of the product you Entered doesn't exist." << endl;
-        cont();
+        cout << "\n\n\t\tFound nothing. Please try different query." << endl;
     }
+    cont();
 }
 
 #endif //GM_BUY_H

@@ -17,7 +17,7 @@
 using namespace std;
 
 struct Product {
-    string ProductName;
+    basic_string<char> ProductName;
     float ProductPrice;
     float MillingPrice;
     string millinghousename;
@@ -63,7 +63,7 @@ bool checkmilus(string);
 
 bool checkinorder(int);
 
-bool checka(string, string, int);
+float calculateTotalPrice(string p, string mn, int a);
 
 bool checkp(string, string);
 
@@ -101,6 +101,8 @@ bool loginseller();
 
 bool loginbuyer();
 
+void forgotpassword(int user);
+
 void buyermenu();
 
 void sellermenu();
@@ -115,7 +117,7 @@ void discountprice();
 
 void orders(int);
 
-void makeorder();
+void makeorder(bool);
 
 void sortbyname();
 

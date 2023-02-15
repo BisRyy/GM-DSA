@@ -7,6 +7,7 @@
 
 #include "common.h"
 
+string files[4] = {"buyerinfo.txt", "sellerinfo.txt", "productinfo.txt", "orderinfo.txt"};
 
 void userlist() {
     fstream file;
@@ -32,6 +33,31 @@ void sellerlist() {
              << endl;
     }
     file.close();
+}
+
+int counter(int t = 0) {
+    int count = -1;
+    string getcontent;
+    ifstream openfile(files[t]);
+    if (openfile.is_open()) {
+        while (!openfile.eof()) {
+            getline(openfile, getcontent);
+            count++;
+        }
+        openfile.close();
+    }
+    return count;
+}
+
+void inventory(int t = 1) {
+    clear();
+    cout << "\n\n\t\t----------------- CURRENT INVENTORY AND USER STATUS -----------------\n";
+    cout << "\n\t\t   Total Buyers: " << counter(0);
+    cout << "\n\t\t  Total Sellers: " << counter(1);
+    cout << "\n\t\t Total Products: " << counter(2);
+    cout << "\n\t\t   Total Orders: " << counter(3);
+    cout << endl;
+    cont();
 }
 
 #endif //GM_ADMIN_H
